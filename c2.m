@@ -13,8 +13,11 @@ G1 = c2d(Gth*Gb, 1/5);
 G2=zpk(minreal(G1,0.001));
 %figure(1); clf; hold on; zgrid; rlocus(G2);
 syms x
+
+%C3
 wn = solve((1.9704-2*cos(x*sqrt(1-0.7^2)*(1/5))*exp(-0.7*x*(1/5)))/0.0036753== (exp(-2*0.7*x*(1/5))-0.9704)/(0.003675*0.9981)  ,x);
- 
+
+%C4
 K1=double((1.9704-2*cos(wn*sqrt(1-0.7^2)*(1/5))*exp(-0.7*wn*(1/5)))/0.0036753);
 C1=tf([K1],[1]);
 S1=minreal(feedback(K1*G1, 1),0.0001);
@@ -77,14 +80,9 @@ stepinfo(S3)
 
 
 
-%E
+%E1
 G1e = c2d(Gth*Gb, 1);
 G2e=minreal(zpk(G1e), 0.00001);
-
-
-%E1
-
-
 
 %E3
 
@@ -104,6 +102,4 @@ xlabel('temps');
 ylabel('S2(z)');
 title('Resposta del sistema S4(z)');
 stepinfo(S4)
-
-%E7
 
