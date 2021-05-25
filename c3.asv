@@ -42,7 +42,4 @@ CO = ctrb(sc);
 %Observable Form
 Ac = [0 0 0.6552; 1 0 -2.305; 0 1 2.65];
 Bc = [0.0006173;0.0003185;0.0006173];
-Cc = [0 0 1];
-Dc = [0];
-so = ss(Ac, Bc, Cc, Dc);
-OB = obsv(so);
+Cc
