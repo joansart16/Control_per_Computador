@@ -1,3 +1,5 @@
+%F1
+
 K=0.5;
 J=0.009;
 R=3.4;
@@ -10,7 +12,11 @@ Gm=tf(K/(J*R), [1 K^2/(J*R) 0]);
 C0 = tf([Km Km*a], [1]);
 Gb = tf([(5/7)*9.81*(r/L)],[1 d 0]);
 Gth=feedback(C0*Gm,1);
-Gth=minreal(Gth,0.0001);
-G = minreal(Gth*Gb, 0.01);
+%Gth=minreal(Gth,0.0001);
+G = Gth*Gb;
 
 %F2
+
+%F3
+Gpz = c2d(Gth, 1/10);
+zpk(Gpz);
