@@ -1,3 +1,6 @@
+clc;
+clear;
+close all;
 %F1
 
 K=0.5;
@@ -36,8 +39,28 @@ Ao = [0 1 0; 0 0 1; 0.6552 -2.305 2.65];
 Bo = [0; 0; 1];
 Co = [0.0006173 0.0003185 0.0006173];
 Do = [0];
-sc = ss(Ao, Bo, Co, Do);
-CO = ctrb(sc);
+sc = ss(Ao, Bo, Co, Do, 1/10);
+[Vo, Do] = eig(Ao);
+V_1o=inv(Vo);
+
+
+
+k=1:1:400;
+
+y_k = zeros(1,400);
+x_0o=[0;0;0];
+for i = 1: size(k)
+    phita = Vo*(Do^i)*V_1o;
+    phita_1 = Vo*(Do^(i-1))*V_1o;
+    x_k = phita*x_0o + phita_1*Bo;
+    y_k(i) = Co*x_k;
+end;
+plot(k, y_k);
+    
+
+
+%tm = Vo*(Do^k)*V_1o;
+%CO = ctrb(sc);
 
 %Observable Form
 Ac = [0 0 0.6552; 1 0 -2.305; 0 1 2.65];
