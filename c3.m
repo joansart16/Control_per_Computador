@@ -43,11 +43,11 @@ Cc = [num(4) num(3) num(2)];
 Dc = 0;
 sc = ss(Ac, Bc, Cc, Dc, 1/10);
 [Vc, Dc] = eig(Ac);
-V_1o=inv(Vc);
+V_1c=inv(Vc);
 
 
 
-k=1:1:400;
+
 
 y_kc = zeros(1,400);
 x_0c=[0;0;0];
@@ -86,4 +86,32 @@ for i = 1:400
     y_ko(i) = Co*x_k;
 end;
 plot(y_ko);
+
+%F6
+
+%Controllable form
+
+y_kc2 = zeros(1,400);
+x_0c2=[10;0;0];
+for i = 1:400
+    phita = Vc*(Dc^i)*V_1c;
+    phita_1 = Vc*(Dc^(i-1))*V_1c;
+    x_k = phita*x_0c2 + phita_1*Bc;
+    y_kc2(i) = Cc*x_k;
+end;
+plot(y_kc2);
+    
+
+
+%Observable Form
+
+y_ko2 = zeros(1,400);
+x_0o2=[10;0;0];
+for i = 1:400
+    phita = Vo*(Do^i)*V_1o;
+    phita_1 = Vo*(Do^(i-1))*V_1o;
+    x_k = phita*x_0o2 + phita_1*Bo;
+    y_ko2(i) = Co*x_k;
+end;
+plot(y_ko2);
 
