@@ -2,7 +2,7 @@ clc;
 clear;
 close all;
 %F1
-
+T = 1/10;
 K=0.5;
 J=0.009;
 R=3.4;
@@ -21,7 +21,7 @@ G = Gth*Gb;
 %F2
 
 %F3
-G1pz =c2d(G, 1/10, 'zoh');
+G1pz =c2d(G, T, 'zoh');
 
 G2pz = minreal(G1pz, 0.0001);
 
@@ -41,7 +41,7 @@ Ac = [0 1 0; 0 0 1; -den(4) -den(3) -den(2)];
 Bc = [0; 0; 1];
 Cc = [num(4) num(3) num(2)];
 Dc = 0;
-sc = ss(Ac, Bc, Cc, Dc, 1/10);
+sc = ss(Ac, Bc, Cc, Dc, T);
 [Vc, Dc] = eig(Ac);
 V_1c=inv(Vc);
 
@@ -69,7 +69,7 @@ Ao = [0 0 -den(4); 1 0 -den(3); 0 1 -den(2)];
 Bo = [num(4);num(3);num(2)];
 Co = [0 0 1];
 Do = 0;
-so = ss(Ao, Bo, Co, Do);
+so = ss(Ao, Bo, Co, Do, T);
 
 [Vo, Do] = eig(Ao);
 V_1o=inv(Vo);
@@ -115,3 +115,10 @@ for i = 1:400
 end;
 plot(y_ko2);
 
+
+%F7
+
+[y0,t] = initial(sc, [10;0;0], 40);
+[y1, t] = impulse(sc, 40);
+yf = y0+y1*T;
+plot(yf);
