@@ -127,3 +127,18 @@ plot(y_ko2);
 yf = y0+y1*T;
 figure;
 plot(yf);
+
+
+
+%G
+
+delta = 0.8;
+ts = 1;
+wn = 4/(delta*ts);
+wd = wn*sqrt(1-0.8^2);
+p_z0 = 1;
+p_z1 = 2*cos(wd*T)*exp(-delta*wn*T);
+p_z2 = exp(-2*delta*wn*T);
+
+%G3
+vector_p_z = [1]  
