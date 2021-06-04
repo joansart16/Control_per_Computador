@@ -136,9 +136,26 @@ delta = 0.8;
 ts = 1;
 wn = 4/(delta*ts);
 wd = wn*sqrt(1-0.8^2);
-p_z0 = 1;
-p_z1 = 2*cos(wd*T)*exp(-delta*wn*T);
-p_z2 = exp(-2*delta*wn*T);
-
+alpha1 = -2*cos(wd*T)*exp(-delta*wn*T);
+alpha2 = exp(-2*delta*wn*T);
+alpha3 = 0;
 %G3
-vector_p_z = [1]  
+vector_p_z = [1 alpha1 alpha2];
+
+vector_p_z2 = [1 alpha1 alpha2 alpha3];
+
+a1 = den(2);
+a2 = den(3);
+a3 = den(4);
+
+Kx = [(alpha3-a3) (alpha2-a2) (alpha1-a1)];
+
+
+
+%G5
+Kr = inv(Cc*inv([1 0 0; 0 1 0; 0 0 1] -Ac + Bc*Kx)*Bc);
+
+
+
+
+
