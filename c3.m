@@ -28,6 +28,7 @@ G2pz = minreal(G1pz, 0.0001);
 %F5
 
 %Impulse G2pz
+
 impulse(G2pz);
 xlim([0.0 40])
 xlabel('temps');
@@ -57,6 +58,7 @@ for i = 1:400
     x_k = phita*x_0c + phita_1*Bc;
     y_kc(i) = Cc*x_k;
 end;
+figure;
 plot(y_kc);
     
 
@@ -85,6 +87,7 @@ for i = 1:400
     x_k = phita*x_0o + phita_1*Bo;
     y_ko(i) = Co*x_k;
 end;
+figure;
 plot(y_ko);
 
 %F6
@@ -99,6 +102,7 @@ for i = 1:400
     x_k = phita*x_0c2 + phita_1*Bc;
     y_kc2(i) = Cc*x_k;
 end;
+figure;
 plot(y_kc2);
     
 
@@ -121,4 +125,5 @@ plot(y_ko2);
 [y0,t] = initial(sc, [10;0;0], 40);
 [y1, t] = impulse(sc, 40);
 yf = y0+y1*T;
+figure;
 plot(yf);
