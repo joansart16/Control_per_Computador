@@ -147,15 +147,60 @@ vector_p_z2 = [1 alpha1 alpha2 alpha3];
 a1 = den(2);
 a2 = den(3);
 a3 = den(4);
-
+I=[1 0 0; 0 1 0; 0 0 1];
 Kx = [(alpha3-a3) (alpha2-a2) (alpha1-a1)];
 
+%G4
 
+scg = ss(Ac-Bc*Kx, Bc, Cc, 0, T);
+step(scg);
+stepinfo(scg);
 
 %G5
-Kr = inv(Cc*inv([1 0 0; 0 1 0; 0 0 1] -Ac + Bc*Kx)*Bc);
+Kr = inv(Cc*inv(I-Ac+Bc*Kx)*Bc);
+
+%G6
+
+scg2 = ss(Ac-Bc*Kx, Bc*Kr, Cc, 0, T);
+step(scg2);
+stepinfo(scg2);
+
+%H
+%H1
+CA = Cc*Ac;
+A_ = [Ac(1) Ac(4) Ac(7) 0;
+      Ac(2) Ac(5) Ac(8) 0;
+      Ac(3) Ac(6) Ac(9) 0;
+      -CA(1) -CA(2) -CA(3) 1];
+CB = Cc*Bc 
+B_ = [Bc(1);
+    Bc(2);
+    Bc(3);
+    -CB];
+
+C_ = [Cc 0];
+
+I4 = [1 0 0 0;
+      0 1 0 0;
+      0 0 1 0;
+      0 0 0 1];
 
 
-
+matriuP = [z -1 0 0;
+           0 z -1 0;
+           -Ac(3) -Ac(6) (z-Ac(9)) 0;
+           CA(1) CA(2) CA(3) (z-1)
+           ];
+detMatriuP1 = [1 -Ac(9) -Ac(6) -Ac(3)];
+detMatriuP2 = [1 -1];
+roots(detMatriuP)
+detMatriuP = [ 1 (-Ac(9)-1) (-Ac(6)+Ac(9)) (-Ac(3)+Ac(6)) Ac(3)]
+A_B_ = A_*B_;
+A_A_B_ = A_^2*B_;
+A_A_A_B_ = A_^3*B_;
+matriuCont = [B_(1) A_B_(1) A_A_B_(1) A_A_A_B_(1);
+              B_(2) A_B_(2) A_A_B_(2) A_A_A_B_(2);
+              B_(3) A_B_(3) A_A_B_(3) A_A_A_B_(3);
+              B_(4) A_B_(4) A_A_B_(3) A_A_A_B_(3)]
 
 
