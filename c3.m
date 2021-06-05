@@ -125,9 +125,17 @@ plot(y_ko2);
 [y0,t] = initial(sc, [10;0;0], 40);
 [y1, t] = impulse(sc, 40);
 yf = y0+y1*T;
-figure;
-plot(yf);
 
+figure;
+
+hold on;
+plot(yf)
+plot(y0)
+plot(y1)
+title("Grafics F7");
+aaix(0 400 0 1.5);
+hold off;
+legend("Suma", "Condicions Inicials", "Impuls Unitari")
 
 
 %G
@@ -147,12 +155,13 @@ vector_p_z2 = [1 alpha1 alpha2 alpha3];
 a1 = den(2);
 a2 = den(3);
 a3 = den(4);
-I=[1 0 0; 0 1 0; 0 0 1];
+I=eye(3);
 Kx = [(alpha3-a3) (alpha2-a2) (alpha1-a1)];
 
 %G4
 
 scg = ss(Ac-Bc*Kx, Bc, Cc, 0, T);
+figure;
 step(scg);
 stepinfo(scg);
 
@@ -162,7 +171,8 @@ Kr = inv(Cc*inv(I-Ac+Bc*Kx)*Bc);
 %G6
 
 scg2 = ss(Ac-Bc*Kx, Bc*Kr, Cc, 0, T);
-step(scg2);
+figure;
+step(scg2)
 stepinfo(scg2);
 
 %H
@@ -180,10 +190,7 @@ B_ = [Bc(1);
 
 C_ = [Cc 0];
 
-I4 = [1 0 0 0;
-      0 1 0 0;
-      0 0 1 0;
-      0 0 0 1];
+I4 = eye(4);
 
 
 matriuP = [z -1 0 0;
