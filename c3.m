@@ -225,4 +225,18 @@ A_b = Tc_1*A_*Tc;
 
 
 %H2
-ph2 = [1 -2*cos(wd*T)*exp(-0.8*wn*T) exp(-2*0.8*wn*T) 0 0 ]
+ph2 = [1 -2*cos(wd*T)*exp(-0.8*wn*T) exp(-2*0.8*wn*T) 0 0 ];
+
+%H3
+alpha1h = ph2(2);
+alpha2h = ph2(3);
+alpha3h = ph2(4);
+alpha4h = ph2(4);
+
+a1h = -A_b(16);
+a2h = -A_b(12);
+a3h = -A_b(8);
+a4h = -A_b(4);
+
+K_ = [ (alpha4h-a4h) (alpha3h-a3h) (alpha2h-a2h) (alpha1h-a1h)]*Tc_1;
+
