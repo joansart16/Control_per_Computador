@@ -197,12 +197,14 @@ C_ = [Cc 0];
 
 I4 = eye(4);
 
-
-% matriuP = [z -1 0 0;
-%            0 z -1 0;
-%            -Ac(3) -Ac(6) (z-Ac(9)) 0;
-%            CA(1) CA(2) CA(3) (z-1)
-%            ];
+syms z
+matriuP = [z -1 0 0;
+           0 z -1 0;
+           -Ac(3) -Ac(6) (z-Ac(9)) 0;
+           CA(1) CA(2) CA(3) (z-1)
+           ];
+determinant = det(matriuP);
+coef = vpa(coeffs(determinant),5);
 detMatriuP1 = [1 -Ac(9) -Ac(6) -Ac(3)];
 detMatriuP = [ 1 (-Ac(9)-1) (-Ac(6)+Ac(9)) (-Ac(3)+Ac(6)) Ac(3)]
 detMatriuP2 = [1 -1];
@@ -215,10 +217,14 @@ matriuCont = [B_(1) A_B_(1) A_A_B_(1) A_A_A_B_(1);
               B_(3) A_B_(3) A_A_B_(3) A_A_A_B_(3);
               B_(4) A_B_(4) A_A_B_(4) A_A_A_B_(4)];
 
-matriuPolinomi = [detMatriuP(4) detMatriuP(3) detMatriuP(2) 1;
-                  detMatriuP(3) detMatriuP(2) 1 0;
-                  detMatriuP(2) 1 0 0;
-                  1 0 0 0];
+% matriuPolinomi = [detMatriuP(4) detMatriuP(3) detMatriuP(2) 1;
+%                   detMatriuP(3) detMatriuP(2) 1 0;
+%                   detMatriuP(2) 1 0 0;
+%                   1 0 0 0];
+matriuPolinomi = double([coef(2) coef(3) coef(4) 1;
+                  coef(3) coef(4) 1 0;
+                  coef(4) 1 0 0;
+                  1 0 0 0]);
 Tc = matriuCont*matriuPolinomi;
 Tc_1 = inv(Tc);
 A_b = Tc_1*A_*Tc;
@@ -238,5 +244,12 @@ a2h = -A_b(12);
 a3h = -A_b(8);
 a4h = -A_b(4);
 
-K_ = [ (alpha4h-a4h) (alpha3h-a3h) (alpha2h-a2h) (alpha1h-a1h)]*Tc_1;
+K_ = [(alpha4h-a4h) (alpha3h-a3h) (alpha2h-a2h) (alpha1h-a1h)]*Tc_1;
+
+%H4
+
+ssh4 = ss(A_-B_*K_, [0;0;0;1],C_,0,T);
+figure;
+step(ssh4);
+stepinfo(ssh4);
 
