@@ -112,8 +112,8 @@ for i = 1:400
     x_k = phita*x_0o2 + phita_1*Bo;
     y_ko2(i) = Co*x_k;
 end;
+figure;
 plot(y_ko2);
-
 xlabel('cicles');
 ylabel('Forma Observable');
 title('Forma Observable F6');
@@ -164,7 +164,7 @@ step(scg);
 xlabel('segons');
 ylabel('Forma controlable');
 title('Forma Controlable G4');
-stepinfo(scg);
+stepinfo(scg)
 
 %G5
 Kr = inv(Cc*inv(I-Ac+Bc*Kx)*Bc);
@@ -178,7 +178,7 @@ step(scg2);
 xlabel('segons');
 ylabel('Forma controlable');
 title('Forma Controlable G6');
-stepinfo(scg2);
+stepinfo(scg2)
 
 %H
 %H1
@@ -198,21 +198,31 @@ C_ = [Cc 0];
 I4 = eye(4);
 
 
-matriuP = [z -1 0 0;
-           0 z -1 0;
-           -Ac(3) -Ac(6) (z-Ac(9)) 0;
-           CA(1) CA(2) CA(3) (z-1)
-           ];
+% matriuP = [z -1 0 0;
+%            0 z -1 0;
+%            -Ac(3) -Ac(6) (z-Ac(9)) 0;
+%            CA(1) CA(2) CA(3) (z-1)
+%            ];
 detMatriuP1 = [1 -Ac(9) -Ac(6) -Ac(3)];
-detMatriuP2 = [1 -1];
-roots(detMatriuP)
 detMatriuP = [ 1 (-Ac(9)-1) (-Ac(6)+Ac(9)) (-Ac(3)+Ac(6)) Ac(3)]
+detMatriuP2 = [1 -1];
+roots(detMatriuP);
 A_B_ = A_*B_;
 A_A_B_ = A_^2*B_;
 A_A_A_B_ = A_^3*B_;
 matriuCont = [B_(1) A_B_(1) A_A_B_(1) A_A_A_B_(1);
               B_(2) A_B_(2) A_A_B_(2) A_A_A_B_(2);
               B_(3) A_B_(3) A_A_B_(3) A_A_A_B_(3);
-              B_(4) A_B_(4) A_A_B_(3) A_A_A_B_(3)]
+              B_(4) A_B_(4) A_A_B_(4) A_A_A_B_(4)];
+
+matriuPolinomi = [detMatriuP(4) detMatriuP(3) detMatriuP(2) 1;
+                  detMatriuP(3) detMatriuP(2) 1 0;
+                  detMatriuP(2) 1 0 0;
+                  1 0 0 0];
+Tc = matriuCont*matriuPolinomi;
+Tc_1 = inv(Tc);
+A_b = Tc_1*A_*Tc;
 
 
+%H2
+ph2 = [1 -2*cos(wd*T)*exp(-0.8*wn*T) exp(-2*0.8*wn*T) 0 0 ]
