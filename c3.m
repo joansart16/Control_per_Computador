@@ -25,19 +25,9 @@ G1pz =c2d(G, T, 'zoh');
 
 G2pz = minreal(G1pz, 0.0001);
 
-%F5
-
-%Impulse G2pz
-
-impulse(G2pz);
-xlim([0.0 40])
-xlabel('temps');
-ylabel('G2p(z)');
-title('G2p(z)');
-
+%F4
+%Controlable
 [num, den] = tfdata(G2pz, 'v');
-
-%Controllable form
 Ac = [0 1 0; 0 0 1; -den(4) -den(3) -den(2)];
 Bc = [0; 0; 1];
 Cc = [num(4) num(3) num(2)];
@@ -45,10 +35,20 @@ Dc = 0;
 sc = ss(Ac, Bc, Cc, Dc, T);
 [Vc, Dc] = eig(Ac);
 V_1c=inv(Vc);
+%Observable
+Ao = [0 0 -den(4); 1 0 -den(3); 0 1 -den(2)];
+Bo = [num(4);num(3);num(2)];
+Co = [0 0 1];
+Do = 0;
+so = ss(Ao, Bo, Co, Do, T);
+
+[Vo, Do] = eig(Ao);
+V_1o=inv(Vo);
+
+%F5
 
 
-
-
+%Controllable form
 
 y_kc = zeros(1,400);
 x_0c=[0;0;0];
@@ -60,24 +60,12 @@ for i = 1:400
 end;
 figure;
 plot(y_kc);
-    
 
-
-%tm = Vo*(Do^k)*V_1o;
-%CO = ctrb(sc);
+xlabel('cicles');
+ylabel('Forma controlable');
+title('Forma Controlable F5');
 
 %Observable Form
-Ao = [0 0 -den(4); 1 0 -den(3); 0 1 -den(2)];
-Bo = [num(4);num(3);num(2)];
-Co = [0 0 1];
-Do = 0;
-so = ss(Ao, Bo, Co, Do, T);
-
-[Vo, Do] = eig(Ao);
-V_1o=inv(Vo);
-
-
-
 
 y_ko = zeros(1,400);
 x_0o=[0;0;0];
@@ -89,6 +77,10 @@ for i = 1:400
 end;
 figure;
 plot(y_ko);
+
+xlabel('cicles');
+ylabel('Forma observable');
+title('Forma Observable F5');
 
 %F6
 
@@ -104,6 +96,9 @@ for i = 1:400
 end;
 figure;
 plot(y_kc2);
+xlabel('cicles');
+ylabel('Forma controlable');
+title('Forma Controlable F6');
     
 
 
@@ -119,6 +114,10 @@ for i = 1:400
 end;
 plot(y_ko2);
 
+xlabel('cicles');
+ylabel('Forma Observable');
+title('Forma Observable F6');
+
 
 %F7
 
@@ -127,13 +126,12 @@ plot(y_ko2);
 yf = y0+y1*T;
 
 figure;
-
 hold on;
 plot(yf)
 plot(y0)
-plot(y1)
+plot(y1*T)
 title("Grafics F7");
-aaix(0 400 0 1.5);
+axis([0 400 0 1.5]);
 hold off;
 legend("Suma", "Condicions Inicials", "Impuls Unitari")
 
@@ -163,6 +161,9 @@ Kx = [(alpha3-a3) (alpha2-a2) (alpha1-a1)];
 scg = ss(Ac-Bc*Kx, Bc, Cc, 0, T);
 figure;
 step(scg);
+xlabel('segons');
+ylabel('Forma controlable');
+title('Forma Controlable G4');
 stepinfo(scg);
 
 %G5
@@ -172,7 +173,11 @@ Kr = inv(Cc*inv(I-Ac+Bc*Kx)*Bc);
 
 scg2 = ss(Ac-Bc*Kx, Bc*Kr, Cc, 0, T);
 figure;
-step(scg2)
+step(scg2);
+
+xlabel('segons');
+ylabel('Forma controlable');
+title('Forma Controlable G6');
 stepinfo(scg2);
 
 %H
