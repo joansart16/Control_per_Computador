@@ -187,7 +187,7 @@ A_ = [Ac(1) Ac(4) Ac(7) 0;
       Ac(2) Ac(5) Ac(8) 0;
       Ac(3) Ac(6) Ac(9) 0;
       -CA(1) -CA(2) -CA(3) 1];
-CB = Cc*Bc 
+CB = Cc*Bc;
 B_ = [Bc(1);
     Bc(2);
     Bc(3);
@@ -205,10 +205,7 @@ matriuP = [z -1 0 0;
            ];
 determinant = det(matriuP);
 coef = vpa(coeffs(determinant),5);
-detMatriuP1 = [1 -Ac(9) -Ac(6) -Ac(3)];
-detMatriuP = [ 1 (-Ac(9)-1) (-Ac(6)+Ac(9)) (-Ac(3)+Ac(6)) Ac(3)]
-detMatriuP2 = [1 -1];
-roots(detMatriuP);
+
 A_B_ = A_*B_;
 A_A_B_ = A_^2*B_;
 A_A_A_B_ = A_^3*B_;
@@ -217,10 +214,6 @@ matriuCont = [B_(1) A_B_(1) A_A_B_(1) A_A_A_B_(1);
               B_(3) A_B_(3) A_A_B_(3) A_A_A_B_(3);
               B_(4) A_B_(4) A_A_B_(4) A_A_A_B_(4)];
 
-% matriuPolinomi = [detMatriuP(4) detMatriuP(3) detMatriuP(2) 1;
-%                   detMatriuP(3) detMatriuP(2) 1 0;
-%                   detMatriuP(2) 1 0 0;
-%                   1 0 0 0];
 matriuPolinomi = double([coef(2) coef(3) coef(4) 1;
                   coef(3) coef(4) 1 0;
                   coef(4) 1 0 0;
@@ -246,10 +239,11 @@ a4h = -A_b(4);
 
 K_ = [(alpha4h-a4h) (alpha3h-a3h) (alpha2h-a2h) (alpha1h-a1h)]*Tc_1;
 
+
 %H4
 
 ssh4 = ss(A_-B_*K_, [0;0;0;1],C_,0,T);
 figure;
 step(ssh4);
-stepinfo(ssh4);
+stepinfo(ssh4)
 
